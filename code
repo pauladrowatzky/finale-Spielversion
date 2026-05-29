@@ -512,8 +512,7 @@ def update(dt):
         wetter = random.choice(["sonne", "regen"])
 
 
-    if zustand == "start":
-        bewegung(dt)
+    if zustand == "start"
         if not intro_music_started:
             music.play("hintergrundmusik")
             intro_music_started = True
@@ -522,6 +521,10 @@ def update(dt):
             music.stop()
             start()
 
+        return
+
+    if zustand == "spiel":
+        bewegung(dt)
         return
 
     if zustand == "uebergang":
