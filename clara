@@ -178,10 +178,10 @@ def einleitung():
             line,
             center=(WIDTH // 2, y),
             fontsize=32,
-            color="yellow"
+            color="lightblue"
         )
 
-        y += 45
+        y += 30
 
 def start():
     global zustand
@@ -510,7 +510,10 @@ def update(dt):
 
         # Regen beeinflusst Wasser
         if wetter == "regen":
+            sounds.regen.play()
             beet.wasser += 0.2 * dt
+        elif wetter == "sonne":
+            sounds.regen.stop()
 
         # Pflanzenwachstumssystem
         if beet.bepflanzt:
