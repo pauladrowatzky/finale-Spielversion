@@ -213,7 +213,6 @@ def einleitung():
 def start():
     global zustand
     zustand = "spiel"
-    music.play("hintergrundmusik")
 
 def shop():
     global gewaehltepflanze
