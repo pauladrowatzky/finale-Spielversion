@@ -576,19 +576,20 @@ def update(dt):
                 beet.wachstum = 100
                 beet.pflanzenbild.image = PFLANZENREIF[beet.pflanze]
 
-            #kranke Pflanze
-             # Chance krank zu werden
+            # Krankheit zufällig bekommen
             if not beet.krank and random.random() < 0.0005:
                 beet.krank = True
+                beet.krank_timer = 0  # Timer starten
 
-            # Krankheit wirkt auf Wachstum
-            if beet.krank:
+            # Wenn krank: Timer läuft
+            if beet.krank:    
+                beet.krank_timer += dt
+
+                # Wachstum sinkt leicht
                 beet.wachstum -= 8 * dt
 
-            # Heilung langsam möglich bei viel Wasser
-            if beet.wasser > 4:
-                beet.krank_timer += dt
-                if beet.krank_timer > 5:
+            # nach 5 Sekunden automatisch gesund
+            if beet.krank_timer >= 5:
                 beet.krank = False
                 beet.krank_timer = 0
 
