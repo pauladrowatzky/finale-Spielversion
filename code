@@ -76,7 +76,8 @@ for pos in positions:
     wasser = Actor("water_oben")
     wasser.pos = pos
     waters.append(wasser)
-    
+
+# Variablen für funktionierendes Spiel
 zustand = "start"
 geld = 50
 level = 1
@@ -89,6 +90,7 @@ wettertimer = 0.0
 WETTERINTERVALL = 20.0
 gewaehltepflanze = "salat"
 endesoundgespielt = False
+sound_zustand = "sonne"
 
 salat = Actor("salat_keim")
 sonnenblume = Actor("sonnenblume_keim")
@@ -536,13 +538,24 @@ def update(dt):
 
     for beet in BEET:
 
-        # Regen beeinflusst Wasser
+       # WATER
         if wetter == "regen":
-            sounds.vogel.stop()
-            sounds.regen.play()
             beet.wasser += 0.2 * dt
-        elif wetter == "sonne":
-            sounds.regen.stop()
+        else:
+            beet.wasser = max(0, beet.wasser - 0.05 * dt)
+
+        # SOUND
+        if wetter == "regen":
+            if sound_zustand != "regen":
+                sounds.vogel.stop()    
+                sounds.regen.play(-1)
+                sound_zustand = "regen"
+
+        else:                
+            if sound_zustand != "sonne":
+                sounds.regen.stop()
+                sounds.vogel.play(-1)
+                sound_zustand = "sonne"        
 
         # Pflanzenwachstumssystem
         if beet.bepflanzt:
