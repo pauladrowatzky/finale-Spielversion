@@ -79,6 +79,12 @@ for pos in positions:
     wasser.pos = pos
     waters.append(wasser)
 
+# sounds Variablen
+sounds.pflanzen.set_volume(0.8)
+sounds.giessen.set_volume(0.8)
+sounds.ernten.set_volume(0.8)
+music.set_volume(0.3)
+
 # Variablen für funktionierendes Spiel
 zustand = "start"
 geld = 50
@@ -524,6 +530,7 @@ def update(dt):
         return
 
     if zustand == "spiel":
+        shop()
         bewegung(dt)
         return
 
@@ -540,8 +547,6 @@ def update(dt):
             neustart()
 
         return
-
-    shop()
 
     restzeit -= dt
 
