@@ -1,7 +1,6 @@
-mport pgzrun
+import pgzrun
 import random
 import pygame
-#hahahah
 
 # Fenster zeichnen 
 WIDTH = 1000
@@ -545,4 +544,3 @@ def update(dt):
         neustart()
 
 pgzrun.go()
-# für Überarbeiten
