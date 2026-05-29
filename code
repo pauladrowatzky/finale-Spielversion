@@ -500,7 +500,7 @@ def update(dt):
     global wettertimer, wetter
     global intro_music_started
 
-    bewegung(dt)
+    
 
     # Wettertimer
     wettertimer += dt
@@ -511,7 +511,7 @@ def update(dt):
 
 
     if zustand == "start":
-
+        bewegung(dt)
         if not intro_music_started:
             music.play("hintergrundmusik")
             intro_music_started = True
@@ -556,7 +556,7 @@ def update(dt):
                 beet.wasser -= 0.3 * dt
 
             elif beet.wasser <= 0:
-                beet.wachstum -= 5 * dt
+                beet.wachstum = max(0, beet.wachstum - 5 * dt)
 
             # Pflanze wird reif
             if beet.wachstum >= 100:
