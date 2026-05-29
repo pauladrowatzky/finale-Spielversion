@@ -93,6 +93,7 @@ WETTERINTERVALL = 20.0
 gewaehltepflanze = "salat"
 endesoundgespielt = False
 sound_zustand = "sonne"
+intro_music_started = False
 
 salat = Actor("salat_keim")
 sonnenblume = Actor("sonnenblume_keim")
@@ -499,6 +500,7 @@ def update(dt):
     global restzeit, gewonnen, verloren, level, zustand
     global wettertimer, wetter
     global intro_music_started
+    global sound_zustand
 
     
 
