@@ -546,20 +546,7 @@ def update(dt):
         if wetter == "regen":
             beet.wasser += 0.2 * dt
         else:
-            beet.wasser = max(0, beet.wasser - 0.05 * dt)
-
-        # SOUND
-        if wetter == "regen":
-            if sound_zustand != "regen":
-                sounds.vogel.stop()    
-                sounds.regen.play(-1)
-                sound_zustand = "regen"
-
-        else:                
-            if sound_zustand != "sonne":
-                sounds.regen.stop()
-                sounds.vogel.play(-1)
-                sound_zustand = "sonne"        
+            beet.wasser = max(0, beet.wasser - 0.05 * dt) 
 
         # Pflanzenwachstumssystem
         if beet.bepflanzt:
@@ -592,6 +579,19 @@ def update(dt):
             if beet.krank_timer >= 5:
                 beet.krank = False
                 beet.krank_timer = 0
+# SOUND
+    if wetter == "regen":
+        if sound_zustand != "regen":
+            sounds.vogel.stop()    
+            sounds.regen.play(-1)
+            sound_zustand = "regen"
+
+    else:                
+        if sound_zustand != "sonne":
+            sounds.regen.stop()
+            sounds.vogel.play(-1)
+            sound_zustand = "sonne"        
+
 
     # Level abgeschlossen
     if geld >= levelziel and not gewonnen:
