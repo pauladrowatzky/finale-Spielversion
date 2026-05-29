@@ -407,14 +407,6 @@ def draw():
             if beet.pflanzenbild:
                 beet.pflanzenbild.draw()
 
-            screen.draw.text(
-            f"Wasser: {int(beet.wasser)}",
-            center=(beet.actor.x, beet.actor.y - 15),
-            fontsize=20,
-            color="blue"
-            )
-
-
 # HASE
 
         hase.draw()
@@ -428,7 +420,7 @@ def draw():
         screen.draw.text(f"Pflanze: {gewaehltepflanze}", (20,170), fontsize=35, color="lightgreen")
 
 # SPIELMECHANIK ÜBERSICHT
-        screen.draw.text(f"Shop: S + 1,2,3,4 / Gießen: mit W auf Feld", (20,300), fontsize=40, color="gold")
+        screen.draw.text(f"Shop: S + 1,2,3,4 / Gießen: mit W auf Feld", (300,20), fontsize=40, color="gold")
 
     elif zustand == "uebergang":
         screen.fill(HELLROSAFARBE)
@@ -518,7 +510,7 @@ def update(dt):
             beet.wasser += 0.2 * dt
         elif wetter == "sonne":
             sounds.regen.stop()
-            sounds.vogel.play()
+
         # Pflanzenwachstumssystem
         if beet.bepflanzt:
 
