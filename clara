@@ -427,6 +427,9 @@ def draw():
         screen.draw.text(f"Zeit: {int(restzeit)}", (20,120), fontsize=40, color="white")
         screen.draw.text(f"Pflanze: {gewaehltepflanze}", (20,170), fontsize=35, color="lightgreen")
 
+# SPIELMECHANIK ÜBERSICHT
+        screen.draw.text(f"Shop: S + 1,2,3,4 / Gießen: mit W auf Feld", (20,300), fontsize=40, color="gold")
+
     elif zustand == "uebergang":
         screen.fill(HELLROSAFARBE)
 
@@ -510,11 +513,12 @@ def update(dt):
 
         # Regen beeinflusst Wasser
         if wetter == "regen":
+            sounds.vogel.stop()
             sounds.regen.play()
             beet.wasser += 0.2 * dt
         elif wetter == "sonne":
             sounds.regen.stop()
-
+            sounds.vogel.play()
         # Pflanzenwachstumssystem
         if beet.bepflanzt:
 
