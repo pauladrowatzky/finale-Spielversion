@@ -130,23 +130,50 @@ PFLANZENREIF = {
 "kuerbis": "kuerbis_reif"
 }
 
-hase = Actor("hase_links_1")
+hase = Actor("hase_rechts_1")
 hase.x = 700
 hase.y = 50
 
-def bewegung():
-    hase.left += 2
-    hase.image = "hase_links_2"
+hasen_richtung = 1
+hasen_timer = 0
+hasen_speed = 70
 
-    clock.schedule_unique(set_hase_normal, 0.5)
+def bewegung(dt):
+    global hasen_timer
+    global hasen_richtung
 
-    if hase.left > WIDTH:
-        hase.right = 0
+    # Bewegung
+    hase.x += hasen_speed * hasen_richtung * dt
 
+    # Richtungswechsel
+    if hase.right >= WIDTH:
+        hasen_richtung = -1
 
-def set_hase_normal():
-    hase.image ="hase_links_1"
+    elif hase.left <= 0:
+        hasen_richtung = 1
 
+    # Animationstimer
+    hasen_timer += dt
+
+    if hasen_timer >= 0.25:
+
+        # RECHTS
+        if hasen_richtung == 1:
+
+            if hase.image == "hase_rechts_1":
+                hase.image = "hase_rechts_2"
+            else:
+                hase.image = "hase_rechts_1"
+
+        # LINKS
+        else:
+
+            if hase.image == "hase_links_1":
+                hase.image = "hase_links_2"
+            else:
+                hase.image = "hase_links_1"
+
+        hasen_timer = 0
 def einleitung():
 
     screen.fill("black")
@@ -467,7 +494,7 @@ def update(dt):
     global restzeit, gewonnen, verloren, level, zustand
     global wettertimer, wetter
 
-    bewegung()
+    bewegung(dt)
 
     # Wettertimer
     wettertimer += dt
