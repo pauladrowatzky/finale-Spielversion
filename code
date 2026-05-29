@@ -19,6 +19,8 @@ class Beet:
         self.wachstum = 0
         self.wasser = 0
         self.pflanzenbild = None
+        self.krank = False
+        self.krank_timer = 0
 
     def draw(self):
         self.actor.draw()
@@ -346,6 +348,8 @@ def draw():
 
             if beet.pflanzenbild:
                 beet.pflanzenbild.draw()
+            if beet.krank:
+                screen.draw.text("KRANK", center=beet.actor.center, color="red", fontsize=10)
 
         
         # WEG
@@ -571,6 +575,22 @@ def update(dt):
             if beet.wachstum >= 100:
                 beet.wachstum = 100
                 beet.pflanzenbild.image = PFLANZENREIF[beet.pflanze]
+
+            #kranke Pflanze
+             # Chance krank zu werden
+            if not beet.krank and random.random() < 0.0005:
+                beet.krank = True
+
+            # Krankheit wirkt auf Wachstum
+            if beet.krank:
+                beet.wachstum -= 8 * dt
+
+            # Heilung langsam möglich bei viel Wasser
+            if beet.wasser > 4:
+                beet.krank_timer += dt
+                if beet.krank_timer > 5:
+                beet.krank = False
+                beet.krank_timer = 0
 
     # Level abgeschlossen
     if geld >= levelziel and not gewonnen:
