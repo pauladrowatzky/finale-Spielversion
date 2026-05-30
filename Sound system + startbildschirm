@@ -340,6 +340,14 @@ def uebergang():
     endesoundgespielt = False
 
     sounds.level_up.play()
+    for beet in BEET:
+        beet.bepflanzt = False
+        beet.pflanze = ""
+        beet.wachstum = 0
+        beet.wasser = 0
+        beet.pflanzenbild = None
+        beet.krank = False
+        beet.krank_timer = 0
 
 def draw():
 
