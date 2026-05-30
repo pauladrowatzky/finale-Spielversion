@@ -226,12 +226,6 @@ def einleitung():
 
         y += 30
 
-def spiel_starten():
-    global zustand
-    zustand = "spiel"
-    
-    sounds.start.play()
-
 def shop():
     global gewaehltepflanze
 
