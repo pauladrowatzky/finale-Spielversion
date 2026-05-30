@@ -491,14 +491,11 @@ def draw():
 
 # UI
 
-        screen.draw.text(f"Geld: {geld}", (20,20), fontsize=40, color="gold")
-        screen.draw.text(f"Level: {level}", (20,70), fontsize=40, color="white")
-        screen.draw.text(f"Zeit: {int(restzeit)}", (20,120), fontsize=40, color="white")
-        screen.draw.text(f"Pflanze: {gewaehltepflanze}", (20,170), fontsize=35, color="lightgreen")
+        screen.draw.text(f"Geld: {geld}", (20,40), fontsize=40, color="gold")
+        screen.draw.text(f"Level: {level}", (150,40), fontsize=40, color="white")
+        screen.draw.text(f"Zeit: {int(restzeit)}", (400,40), fontsize=40, color="white")
+        screen.draw.text(f"Pflanze: {gewaehltepflanze}", (600,40), fontsize=35, color="lightgreen")
 
-
-# SPIELMECHANIK ÜBERSICHT
-        screen.draw.text(f"Shop: S + 1,2,3,4 / Gießen: mit W auf Feld", (270,50), fontsize=40, color="gold")
 
     elif zustand == "uebergang":
         screen.fill(HELLROSAFARBE)
