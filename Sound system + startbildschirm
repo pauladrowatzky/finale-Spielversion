@@ -482,7 +482,7 @@ def draw():
 # Giesskanne
         giesskanne.draw()
         screen.draw.text(
-            "W = Giesßen",
+            "W = Gießen",
             center = (950,430),
             fontsize = 25,
             color = "white"
