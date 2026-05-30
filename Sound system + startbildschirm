@@ -29,6 +29,8 @@ class Beet:
         self.wachstum = 0
         self.wasser = 0
         self.pflanzenbild = None
+        self.krank = False
+        self.krank_timer = 0
 
     def draw(self):
         self.actor.draw()
