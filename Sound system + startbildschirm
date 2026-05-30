@@ -29,8 +29,7 @@ class Beet:
         self.wachstum = 0
         self.wasser = 0
         self.pflanzenbild = None
-        self.krank = False
-        self.krank_timer = 0
+        
 
     def draw(self):
         self.actor.draw()
@@ -319,8 +318,7 @@ def neustart():
         beet.wachstum = 0
         beet.wasser = 0
         beet.pflanzenbild = None
-        beet.krank = False
-        beet.krank_timer = 0
+        
 
 def uebergang():
     global zustand, geld, level, levelziel, restzeit
@@ -343,8 +341,7 @@ def uebergang():
         beet.wachstum = 0
         beet.wasser = 0
         beet.pflanzenbild = None
-        beet.krank = False
-        beet.krank_timer = 0
+       
 
 def draw():
 
@@ -466,19 +463,11 @@ def draw():
             beet.draw()
             if beet.pflanzenbild:
                 beet.pflanzenbild.draw()
-            if beet.krank:
-                screen.draw.text(
-                "KRANK",
-                center=beet.actor.center,
-                color="red",
-                fontsize=12
-                )
-
-            
 
 # HASE
 
         hase.draw()
+        
 # Giesskanne
         giesskanne.draw()
         screen.draw.text(
@@ -623,11 +612,7 @@ def update(dt):
             aktueller_sound = "vogel"
 
     for beet in BEET:
-      # Krankheit zufällig bekommen
-        if beet.bepflanzt and not beet.krank:
-            if random.random() < 0.0005:
-                beet.krank = True
-                beet.krank_timer = 0
+    
 
         # Regen beeinflusst Wasser
         if wetter == "regen":
@@ -643,20 +628,10 @@ def update(dt):
 
             elif beet.wasser <= 0:
                 beet.wachstum -= 5 * dt
-            if beet.krank:
-                beet.krank_timer += dt
-                beet.wachstum -= 8 * dt
-            if beet.krank_timer >= 5:
-                beet.bepflanzt = False
-                beet.pflanze = ""
-                beet.wachstum = 0
-                beet.wasser = 0
-                beet.pflanzenbild = None
-                beet.krank = False
-                beet.krank_timer = 0
+           
 
             # Pflanze wird reif
-            if beet.wachstum >= 100 and not beet.krank:
+            if beet.wachstum >= 100:
                 beet.wachstum = 100
                 beet.pflanzenbild.image = PFLANZENREIF[beet.pflanze]
 
@@ -678,4 +653,3 @@ def update(dt):
         neustart()
 
 pgzrun.go()
-
