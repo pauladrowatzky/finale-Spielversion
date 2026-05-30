@@ -14,7 +14,7 @@ aktueller_sound = ""
 startmusik_spielt = False
 
 zustand = "intro"
-intro_timer = 2.0
+intro_timer = 10.0
 sound_gestartet = False
 
 #Beete
