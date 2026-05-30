@@ -316,6 +316,15 @@ def neustart():
     wettertimer = 0.0
     endesoundgespielt = False
 
+    for beet in BEET:
+        beet.bepflanzt = False
+        beet.pflanze = ""
+        beet.wachstum = 0
+        beet.wasser = 0
+        beet.pflanzenbild = None
+        beet.krank = False
+        beet.krank_timer = 0
+
 def uebergang():
     global zustand, geld, level, levelziel, restzeit
     global verloren, gewonnen, wetter, wettertimer, endesoundgespielt
