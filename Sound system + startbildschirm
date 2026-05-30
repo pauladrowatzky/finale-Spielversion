@@ -593,38 +593,40 @@ def update(dt):
                 aktueller_sound = "vogel"
 
     for beet in BEET:
+      # Krankheit zufällig bekommen
+          if beet.bepflanzt and not beet.krank:
+              if random.random() < 0.0005:
+                  beet.krank = True
+                  beet.krank_timer = 0
 
         # Regen beeinflusst Wasser
-        if wetter == "regen":
-            beet.wasser += 0.2 * dt
-            
-            if aktueller_sound != "regen":
-                
-                sounds.vogel.stop()
-                sounds.regen.play(-1)
-                
-                aktueller_sound = "regen"
-            beet.wasser += 0.2 * dt
-        elif wetter == "sonne":
-            if aktueller_sound != "vogel":
-                sounds.regen.stop()
-                sounds.vogel.play(-1)
-                aktueller_sound = "vogel"
-            
+          if wetter == "regen":
+              sounds.vogel.stop()
+              sounds.regen.play()
+              beet.wasser = min(beet.wasser + 0.2 * dt, 5)
+          elif wetter == "sonne":
+              sounds.regen.stop()
+
         # Pflanzenwachstumssystem
-        if beet.bepflanzt:
+          if beet.bepflanzt:
 
-            if beet.wasser > 0:
-                beet.wachstum += WACHSTUM[beet.pflanze] * dt
-                beet.wasser -= 0.3 * dt
+              if beet.wasser > 0:
+                  beet.wachstum += WACHSTUM[beet.pflanze] * dt
+                  beet.wasser -= 0.3 * dt
 
-            elif beet.wasser <= 0:
-                beet.wachstum -= 5 * dt
+              elif beet.wasser <= 0:
+                  beet.wachstum -= 5 * dt
+              if beet.krank:
+                  beet.krank_timer += dt
+                  beet.wachstum -= 8 * dt
+              if beet.krank_timer >= 5:
+                  beet.krank = False
+                  beet.krank_timer = 0
 
             # Pflanze wird reif
-            if beet.wachstum >= 100:
-                beet.wachstum = 100
-                beet.pflanzenbild.image = PFLANZENREIF[beet.pflanze]
+              if beet.wachstum >= 100 and not beet.krank:
+                  beet.wachstum = 100
+                  beet.pflanzenbild.image = PFLANZENREIF[beet.pflanze]
 
     # Level abgeschlossen
     if geld >= levelziel and not gewonnen:
