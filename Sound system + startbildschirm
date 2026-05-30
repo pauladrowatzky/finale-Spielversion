@@ -362,15 +362,6 @@ def draw():
         for wasser in waters:
             wasser.draw()
             
-        
-        # BEETE + PFLANZEN
-        
-        for beet in BEET:
-
-            beet.draw()
-
-            if beet.pflanzenbild:
-                beet.pflanzenbild.draw()
 
         
         # WEG
@@ -459,6 +450,13 @@ def draw():
             beet.draw()
             if beet.pflanzenbild:
                 beet.pflanzenbild.draw()
+            if beet.krank:
+                screen.draw.text(
+                "KRANK",
+                center=beet.actor.center,
+                color="red",
+                fontsize=12
+                )
 
             
 
