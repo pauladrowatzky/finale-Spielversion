@@ -151,6 +151,8 @@ hase.y = 400
 hasen_richtung = 1
 hasen_timer = 0
 hasen_speed = 70
+HASEN_MIN_X = 300
+HASEN_MAX_X = 700
 
 def bewegung(dt):
     global hasen_timer
@@ -160,10 +162,10 @@ def bewegung(dt):
     hase.x += hasen_speed * hasen_richtung * dt
 
     # Richtungswechsel
-    if hase.right >= WIDTH:
+    if hase.right >= HASEN_MAX_X:
         hasen_richtung = -1
 
-    elif hase.left <= 0:
+    elif hase.left <= HASEN_MIN_X:
         hasen_richtung = 1
 
     # Animationstimer
