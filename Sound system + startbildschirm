@@ -585,12 +585,12 @@ def update(dt):
             sounds.regen.play()
             aktueller_sound = "regen"
             
-        elif wetter == "sonne":
-            if aktueller_sound != "vogel":
-                sounds.regen.stop()
-                sounds.vogel.play()
+    elif wetter == "sonne":
+        if aktueller_sound != "vogel":
+            sounds.regen.stop()
+            sounds.vogel.play()
                 
-                aktueller_sound = "vogel"
+            aktueller_sound = "vogel"
 
     for beet in BEET:
       # Krankheit zufällig bekommen
