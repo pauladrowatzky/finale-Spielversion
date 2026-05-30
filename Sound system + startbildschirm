@@ -650,6 +650,11 @@ def update(dt):
                 beet.krank_timer += dt
                 beet.wachstum -= 8 * dt
             if beet.krank_timer >= 5:
+                beet.bepflanzt = False
+                beet.pflanze = ""
+                beet.wachstum = 0
+                beet.wasser = 0
+                beet.pflanzenbild = None
                 beet.krank = False
                 beet.krank_timer = 0
 
