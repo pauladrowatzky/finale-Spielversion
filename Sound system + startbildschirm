@@ -552,6 +552,17 @@ def update(dt):
         return           
                    
     if zustand == "spiel":
+        if wetter == "regen":
+            if aktueller_sound != "regen":
+                sounds.vogel.stop()
+                sounds.regen.play()
+                aktueller_sound = "regen"
+
+        elif wetter == "sonne":
+            if aktueller_sound != "vogel":
+                sounds.regen.stop()
+                sounds.vogel.play()
+                aktueller_sound = "vogel"
         bewegung(dt)
 
     # Wettertimer
@@ -610,11 +621,8 @@ def update(dt):
 
         # Regen beeinflusst Wasser
         if wetter == "regen":
-            sounds.vogel.stop()
-            sounds.regen.play()
             beet.wasser = min(beet.wasser + 0.2 * dt, 5)
-        elif wetter == "sonne":
-            sounds.regen.stop()
+    
 
         # Pflanzenwachstumssystem
         if beet.bepflanzt:
