@@ -75,6 +75,9 @@ baum6 = secondsheet.subsurface((250,80,65,65))
 blume = secondsheet.subsurface((60,385,45,45))
 blume2 = secondsheet.subsurface((25,385,40,45))
 
+giesskanne = Actor("giesskanne")
+giesskanne.pos =(940,400)
+
 water = Actor("water_ecke")
 water.pos = (720,520)
 
@@ -482,6 +485,13 @@ def draw():
 # HASE
 
         hase.draw()
+# Giesskanne
+        giesskanne.draw()
+        screen.draw.text(
+            "W = Giesßen",
+            center = (950,430),
+            fontsize = 25,
+            color = "white"
 
 
 # UI
