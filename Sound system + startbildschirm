@@ -486,6 +486,7 @@ def draw():
             center = (950,430),
             fontsize = 25,
             color = "white"
+        )
 
 
 # UI
