@@ -150,9 +150,9 @@ hase.y = 400
 
 hasen_richtung = 1
 hasen_timer = 0
-hasen_speed = 70
-HASEN_MIN_X = 300
-HASEN_MAX_X = 700
+hasen_speed = 45
+HASEN_MIN_X = 250
+HASEN_MAX_X = 800
 
 def bewegung(dt):
     global hasen_timer
