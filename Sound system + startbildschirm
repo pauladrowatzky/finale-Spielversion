@@ -7,6 +7,7 @@ import pygame
 WIDTH = 1000
 HEIGHT = 550
 
+
 HELLROSAFARBE = (255, 182, 193)
 
 wetter = "sonne"
@@ -16,6 +17,9 @@ startmusik_spielt = False
 zustand = "intro"
 intro_timer = 10.0
 sound_gestartet = False
+
+salat_geerntet = 0
+sonnenblume_geerntet = 0
 
 #Beete
 class Beet:
@@ -54,7 +58,7 @@ for pos in beet_positions:
 tilesheet = pygame.image.load("images/exterior.png").convert_alpha()
 secondsheet = pygame.image.load("images/plants.png").convert_alpha()
 
-weg = tilesheet.subsurface((0, 128, 48, 53))
+weg = tilesheet.subsurface((0, 128, 45, 51))
 
 baum = tilesheet.subsurface((0, 320, 65, 80))
 haus = tilesheet.subsurface((0, 0, 145, 128))
@@ -246,6 +250,8 @@ def shop():
 
 def on_mouse_down(pos):
     global geld
+    global salat_geerntet
+    global sonnenblume_geerntet
 
     if zustand != "spiel":
         return
@@ -256,6 +262,10 @@ def on_mouse_down(pos):
 
             # ERNTEN
             if beet.bepflanzt and beet.wachstum >= 100:
+                if beet.pflanze == "salat":
+                    salat_geerntet += 1
+                if beet.pflanze == "sonnenblume":
+                    sonnenblume_geerntet += 1    
 
                 geld += VERKAUFSPREISE[beet.pflanze]
 
@@ -302,6 +312,10 @@ def on_mouse_down(pos):
 def neustart():
     global zustand, geld, level, levelziel, restzeit
     global verloren, gewonnen, wetter, wettertimer, endesoundgespielt
+    global salat_geerntet, sonnenblume_geerntet
+    
+    salat_geerntet = 0
+    sonnenblume_geerntet = 0
 
     zustand = "spiel"
     geld = 50
@@ -321,10 +335,13 @@ def neustart():
         beet.wasser = 0
         beet.pflanzenbild = None
         
-
 def uebergang():
     global zustand, geld, level, levelziel, restzeit
     global verloren, gewonnen, wetter, wettertimer, endesoundgespielt
+    global salat_geerntet, sonnenblume_geerntet
+    
+    salat_geerntet = 0
+    sonnenblume_geerntet = 0
 
     zustand = "uebergang"
     level += 1
@@ -482,8 +499,8 @@ def draw():
 
 # UI
 
-        screen.draw.text(f"Geld: {geld}", (20,40), fontsize=40, color="gold")
-        screen.draw.text(f"Level: {level}", (150,40), fontsize=40, color="white")
+        screen.draw.text(f"Geld: {geld}", (160,40), fontsize=40, color="gold")
+        screen.draw.text(f"Level: {level}", (20,40), fontsize=40, color="white")
         screen.draw.text(f"Zeit: {int(restzeit)}", (400,40), fontsize=40, color="white")
         screen.draw.text(f"Pflanze: {gewaehltepflanze}", (600,40), fontsize=35, color="lightgreen")
 
@@ -528,6 +545,11 @@ def draw():
         fontsize=35,
         color="yellow"
         )
+    
+    
+    if level == 3:
+        screen.draw.text(f"Salat:{salat_geerntet}/5", (20, 90), fontsize=30, color="white")
+        screen.draw.text(f"Sonnenblume: {sonnenblume_geerntet}/3", (20, 120), fontsize=30, color="yellow")    
     
 def update(dt):
     global restzeit, gewonnen, verloren, level, zustand
@@ -638,15 +660,16 @@ def update(dt):
                 beet.pflanzenbild.image = PFLANZENREIF[beet.pflanze]
 
     # Level abgeschlossen
-    if geld >= levelziel and not gewonnen:
-
-        gewonnen = True
-
-        if level < 3:
-            uebergang()
-
-        else:
-            zustand = "ende"
+    if not gewonnen:
+        
+        if level == 1 or level == 2:
+            if geld>= levelziel:
+                gewonnen = True
+                uebergang()
+        elif level == 3:
+            if salat_geerntet >= 5 and sonnenblume_geerntet >= 3:
+                gewonnen = True
+                zustand = "ende"        
 
     # Zeit abgelaufen
     if restzeit <= 0 and geld < levelziel:
