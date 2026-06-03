@@ -231,6 +231,13 @@ def einleitung():
 
         y += 30
 
+# Game over Bildschirm + Neustart
+def gameover():
+    global zustand
+    zustand = "gameover"
+
+
+# Shop für Pflanzen
 def shop():
     global gewaehltepflanze
 
