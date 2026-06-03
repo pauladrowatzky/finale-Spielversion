@@ -235,7 +235,7 @@ def einleitung():
 def gameover():
     global zustand
     zustand = "gameover"
-
+    sounds.game_over.play()
 
 # Shop für Pflanzen
 def shop():
@@ -684,6 +684,6 @@ def update(dt):
     if restzeit <= 0 and geld < levelziel:
 
         verloren = True
-        neustart()
+        gameover()
 
 pgzrun.go()
