@@ -203,6 +203,7 @@ def einleitung():
         "WILLKOMMEN ZUM SPIEL",
         center=(WIDTH // 2, 120),
         fontsize=50,
+        fontname="schrift",
         color="white"
     )
 
@@ -226,6 +227,7 @@ def einleitung():
             line,
             center=(WIDTH // 2, y),
             fontsize=32,
+            fontname="schrift",
             color="lightblue"
         )
 
@@ -382,6 +384,7 @@ def draw():
             "Drücke A zum Starten",
             center = (WIDTH //2, 550),
             fontsize = 50,
+            fontname="schrift",
             color= "black"  
         )
         
@@ -400,6 +403,7 @@ def draw():
             "DU HAST VERLOREN!",
             center=(WIDTH // 2, 200),
             fontsize=60,
+            fontname="schrift",
             color="red"
             )
 
@@ -407,6 +411,7 @@ def draw():
             "Drücke D für Neustart",
             center=(WIDTH // 2, 320),
             fontsize=40,
+            fontname="schrift",
             color="white"
             )
 
@@ -519,20 +524,21 @@ def draw():
             "W = Gießen",
             center = (950,430),
             fontsize = 25,
+            fontname="schrift",
             color = "white"
         )
 # speziell für level 3
         if level == 3:
-            screen.draw.text(f"Salat:{salat_geerntet}/5", (20, 90), fontsize=30, color="white")
-            screen.draw.text(f"Sonnenblume: {sonnenblume_geerntet}/3", (20, 120), fontsize=30, color="yellow")    
+            screen.draw.text(f"Salat:{salat_geerntet}/5", (20, 90), fontsize=30, fontname="schrift", color="white")
+            screen.draw.text(f"Sonnenblume: {sonnenblume_geerntet}/3", (20, 120), fontsize=30, fontname="schrift", color="yellow")    
     
 
 # UI
 
-        screen.draw.text(f"Geld: {geld}", (160,40), fontsize=40, color="gold")
-        screen.draw.text(f"Level: {level}", (20,40), fontsize=40, color="white")
-        screen.draw.text(f"Zeit: {int(restzeit)}", (400,40), fontsize=40, color="white")
-        screen.draw.text(f"Pflanze: {gewaehltepflanze}", (600,40), fontsize=35, color="lightgreen")
+        screen.draw.text(f"Geld: {geld}", (160,40), fontsize=40, fontname="schrift", color="gold")
+        screen.draw.text(f"Level: {level}", (20,40), fontsize=40,fontname="schrift", color="white")
+        screen.draw.text(f"Zeit: {int(restzeit)}", (400,40), fontsize=40,fontname="schrift", color="white")
+        screen.draw.text(f"Pflanze: {gewaehltepflanze}", (600,40), fontsize=35,fontname="schrift", color="lightgreen")
 
 
     elif zustand == "uebergang":
@@ -542,6 +548,7 @@ def draw():
         "NÄCHSTES LEVEL",
         center=(WIDTH // 2, 120),
         fontsize=50,
+        fontname="schrift",
         color="white"
         )
  
@@ -549,6 +556,7 @@ def draw():
         f"Neues Ziel: {levelziel}",
         center=(WIDTH // 2, 250),
         fontsize=40,
+        fontname="schrift",
         color="yellow"
         )
 
@@ -556,6 +564,7 @@ def draw():
         "Drücke A zum Starten",
         center=(WIDTH // 2, 350),
         fontsize=35,
+        fontname="schrift",
         color="yellow"
         )
 
@@ -566,6 +575,7 @@ def draw():
         "Du hast alle Level geschafft!",
         center=(WIDTH // 2, 250),
         fontsize=50,
+        fontname="schrift",
         color="white"
         )
 
@@ -573,6 +583,7 @@ def draw():
         "Drücke D für Neustart",
         center=(WIDTH // 2, 350),
         fontsize=35,
+        fontname="schrift",
         color="yellow"
         )
     
