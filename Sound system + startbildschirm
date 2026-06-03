@@ -496,7 +496,11 @@ def draw():
             fontsize = 25,
             color = "white"
         )
-
+# speziell für level 3
+        if level == 3:
+            screen.draw.text(f"Salat:{salat_geerntet}/5", (20, 90), fontsize=30, color="white")
+            screen.draw.text(f"Sonnenblume: {sonnenblume_geerntet}/3", (20, 120), fontsize=30, color="yellow")    
+    
 
 # UI
 
@@ -548,10 +552,7 @@ def draw():
         )
     
     
-    if level == 3:
-        screen.draw.text(f"Salat:{salat_geerntet}/5", (20, 90), fontsize=30, color="white")
-        screen.draw.text(f"Sonnenblume: {sonnenblume_geerntet}/3", (20, 120), fontsize=30, color="yellow")    
-    
+   
 def update(dt):
     global restzeit, gewonnen, verloren, level, zustand
     global wettertimer, wetter, aktueller_sound
