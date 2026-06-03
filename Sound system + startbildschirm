@@ -347,6 +347,7 @@ def uebergang():
     level += 1
     levelziel += 50
     restzeit = 90.0
+    geld = 50
     gewonnen = False
     verloren = False
     wetter = "sonne"
