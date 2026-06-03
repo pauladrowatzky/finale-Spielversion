@@ -393,6 +393,14 @@ def draw():
             screen.blit("hintergrund_regen", (0,0))
         else:
             screen.blit("hintergrund_sonne", (0,0))
+    elif zustand == "gameover"
+        screen.fill("black")
+        screen.draw.text(
+            "DU HAST VERLOREN!",
+            center=(WIDTH // 2, 200),
+            fontsize=60,
+            color="red"    
+            )
 
     
         # WASSER
@@ -596,6 +604,11 @@ def update(dt):
                 sounds.vogel.play()
                 aktueller_sound = "vogel"
         bewegung(dt)
+
+    if zustand == "gameover":
+        if keyboard.d:
+            neustart()
+        return
 
     # Wettertimer
     wettertimer += dt
