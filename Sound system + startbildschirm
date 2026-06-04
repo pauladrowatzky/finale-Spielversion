@@ -2,12 +2,9 @@ import pgzrun
 import random
 import pygame
 
-
 # Fenster zeichnen 
 WIDTH = 1000
 HEIGHT = 550
-
-
 HELLROSAFARBE = (255, 182, 193)
 
 wetter = "sonne"
@@ -20,6 +17,9 @@ sound_gestartet = False
 
 salat_geerntet = 0
 sonnenblume_geerntet = 0
+
+mausklick = Actor("mausklick")
+mausklick.pos = (950, 460)
 
 #Beete
 class Beet:
@@ -34,32 +34,43 @@ class Beet:
         self.wasser = 0
         self.pflanzenbild = None
         
-
     def draw(self):
         self.actor.draw()
 
     def collidepoint(self, pos):
         return self.actor.collidepoint(pos)
-    
 
 beet_positions = [
-(300,255), (345,255),(390,255), (435,255), (480,255), (560,255), (605,255), (650,255), (695,255), (740, 255),
-(300,300), (345,300),(390,300), (435,300), (480,300), (560,300), (605,300), (650,300), (695,300), (740, 300),
-(300,345), (345,345),(390,345), (435,345), (480,345), (560,345), (605,345), (650,345), (695,345), (740, 345),
-(300,390), (345,390),(390,390), (435,390), (480,390), (560,390), (605,390), (650,390), (695,390), (740, 390),
+(300,255), (345,255),(390,255), (435,255), (480,255), (560,255), (605,255), (650,255), (695,255), (740, 255),(300,300), (345,300),(390,300), (740, 390),
+(435,300), (480,300), (560,300), (605,300), (650,300), (695,300), (740, 300),(300,345), (345,345),(390,345), (435,345), (480,345), (560,345), 
+(605,345), (650,345), (695,345), (740, 345), (300,390), (345,390),(390,390), (435,390), (480,390), (560,390),(605,390), (650,390), (695,390)
 ]
 
 BEET = []
 
 for pos in beet_positions:
     BEET.append(Beet(pos))
-
+    
+weg_positions = [
+        (890,200), (890,230), (890,260), (860,260), (830,260), (800,260), (770,260), (770,230), (770,200), (770,170), (740,170), (710,170), (680,170),
+        (650,170), (620,170), (590,170), (560,170), (530,170), (500,170), (470,170), (440,170), (410,170), (380,170), (350,170), (320,170), (290,170), 
+        (260,170), (260,200), (230,200), (200,200), (170,200), (170,230), (170,260), (170,290), (170,320), (170,350), (170,380), (170,410), (170,440), 
+        (170,470), (170,500), (520,200), (520,230), (520,260), (520,290), (520,320), (520,350), (520,380), (550,380), (580,380), (610,380), (640,380), 
+        (670,380), (700,380), (730,380), (760,380), (770,380), (770,350), (770,320), (770,290), (490,380), (460,380), (430,380), (400,380), (390,380), 
+        (360,380), (330,380), (300,380), (270,380), (240,380), (210,380), (200,380)
+]      
+wald_positions = [
+        
+        (5,1), (105,1), (205,1), (305,1), (405,1),(505,1),(605,1), (705,1), (805,1), (905,1), (55,30), (155,30), (255,30), (355,30), (455,30), (555,30), 
+        (655,30), (755,30), (885,30),(955,30), (5,60), (105,60), (205,60), (305,60),(405,60), (505,60), (605,60), (705,60), (55,90), (155,90), (255,90), 
+        (355,90),(455,90),(555,90), (655,90)
+  ]    
+      
 # Deko
 tilesheet = pygame.image.load("images/exterior.png").convert_alpha()
 secondsheet = pygame.image.load("images/plants.png").convert_alpha()
 
-weg = tilesheet.subsurface((0, 128, 45, 51))
-
+weg = tilesheet.subsurface((0, 128, 45, 51)) 
 baum = tilesheet.subsurface((0, 320, 65, 80))
 haus = tilesheet.subsurface((0, 0, 145, 128))
 baum2 = tilesheet.subsurface((65,320,65,80))
@@ -71,15 +82,13 @@ großer_pilz = tilesheet.subsurface((60,540,55,55))
 kleiner_pilz = tilesheet.subsurface((55,585,40,40))
 großer_stein = tilesheet.subsurface((0,650,60,60))
 vogelscheuche = tilesheet.subsurface ((0,545,55,55))
-
 baum_klein = secondsheet.subsurface((195,25,55,55))
 baum6 = secondsheet.subsurface((250,80,65,65))
-
 blume = secondsheet.subsurface((60,385,45,45))
 blume2 = secondsheet.subsurface((25,385,40,45))
 
 giesskanne = Actor("giesskanne")
-giesskanne.pos =(940,400)
+giesskanne.pos =(300,470)
 
 water = Actor("water_ecke")
 water.pos = (720,520)
@@ -370,14 +379,12 @@ def uebergang():
         beet.wachstum = 0
         beet.wasser = 0
         beet.pflanzenbild = None
-       
 
 def draw():
 
     if zustand == "intro":
         screen.blit("startbild", (0,0))
         
-    
     elif zustand == "start":
         einleitung()  
         screen.draw.text(
@@ -391,11 +398,100 @@ def draw():
     elif zustand == "spiel":
         
         # HINTERGRUND
-    
         if wetter == "regen":
             screen.blit("hintergrund_regen", (0,0))
         else:
             screen.blit("hintergrund_sonne", (0,0))
+    
+        # WASSER
+        water.draw()
+
+        for wasser in waters:
+            wasser.draw()
+        
+        # WEG
+        for pos in weg_positions:
+           
+           screen.blit(weg, pos)
+  
+        # HOLZSTAMM
+        screen.blit(holzstamm, (10,190))
+        screen.blit(holzstamm, (120, 380))
+
+        # PILZE
+        screen.blit(großer_pilz, (30,300))
+        screen.blit(großer_pilz, (415,140))
+        screen.blit(kleiner_pilz, (220, 380))
+        screen.blit(kleiner_pilz, (50, 430))
+
+        # VOGELSCHEUCHE
+        screen.blit(vogelscheuche, (10,150))
+
+        # STEINE
+        screen.blit(großer_stein, (90,320))
+        screen.blit(großer_stein, (15,230))
+
+        # BÄUME + HAUS
+        screen.blit(baum,(750,120)), screen.blit(baum,(20,380)) , screen.blit(baum,(50,170)) , screen.blit(haus,(800,80))
+        screen.blit(baum2,(930,105)), screen.blit(baum2,(90,205)), screen.blit(baum3,(945,150)), screen.blit(baum_klein,(910,200))
+        screen.blit(baum_klein,(110,140)), screen.blit(baum6,(770,250)), screen.blit(baum6,(50,260))
+    
+        # WALD
+        for pos in wald_positions:
+           screen.blit(wald, pos)
+   
+        # BLUMEN
+        screen.blit(blume,(840,260))
+        screen.blit(blume2,(855,210))
+
+        # BRUNNEN
+        screen.blit(brunnen, (820, 200))
+
+        # BEETE + PFLANZEN
+        for beet in BEET:
+            beet.draw()
+            if beet.pflanzenbild:
+                beet.pflanzenbild.draw()
+
+        # HASE
+        hase.draw()
+        
+        # Giesskanne
+        giesskanne.draw()
+        screen.draw.text(
+            "W+",
+            center = (290,510),
+            fontsize = 30,
+            fontname="schrift",
+            color = "white"
+        )
+        mausklick.pos = (330,520)
+        mausklick.draw()
+        
+        # Shop erklärung
+        screen.draw.text(
+            "Shop: S + 1-4", 
+            center = (460, 510),
+            fontsize=30,
+            fontname="schrift",
+            color="white"
+        )        
+            
+        # speziell für level 3
+        if level == 3:
+            screen.draw.text(f"Salat:{salat_geerntet}/5", (20, 90), fontsize=30, fontname="schrift", color="white")
+            screen.draw.text(f"Sonnenblume: {sonnenblume_geerntet}/3", (20, 120), fontsize=30, fontname="schrift", color="yellow")    
+    
+        # UI
+        ui_rect = Rect((0, 40), (800, 55))
+        screen.draw.filled_rect(ui_rect, ( 255, 228, 196))
+        screen.draw.rect(ui_rect, (80, 120, 80))
+        
+        screen.draw.text(f"Geld: {geld}", (140,40), fontsize=30, fontname="schrift", color="darkgreen")
+        screen.draw.text(f"Level: {level}", (20,40), fontsize=30,fontname="schrift", color="darkgreen")
+        screen.draw.text(f"Zeit: {int(restzeit)}", (300,40), fontsize=30,fontname="schrift", color="darkgreen")
+        screen.draw.text(f"Pflanze: {gewaehltepflanze}", (450,40), fontsize=30,fontname="schrift", color="darkgreen")
+        
     elif zustand == "gameover":
         screen.fill("black")
 
@@ -414,133 +510,8 @@ def draw():
             fontname="schrift",
             color="white"
             )
-
         return
-
     
-        # WASSER
-     
-        water.draw()
-
-        for wasser in waters:
-            wasser.draw()
-            
-
-        
-        # WEG
-       
-        screen.blit(weg,(890,200)), screen.blit(weg,(890,230)), screen.blit(weg,(890,260)), screen.blit(weg,(860,260)) 
-        screen.blit(weg,(830,260)), screen.blit(weg,(800,260)), screen.blit(weg,(770,260)), screen.blit(weg,(770,230))  
-        screen.blit(weg,(770,200)), screen.blit(weg,(770,170)), screen.blit(weg,(740,170)), screen.blit(weg,(710,170)) 
-        screen.blit(weg,(680,170)), screen.blit(weg,(650,170)), screen.blit(weg,(620,170)), screen.blit(weg,(590,170))
-        screen.blit(weg,(560,170)), screen.blit(weg,(530,170)), screen.blit(weg,(500,170)), screen.blit(weg,(470,170))
-        screen.blit(weg,(440,170)), screen.blit(weg,(410,170)), screen.blit(weg,(380,170)), screen.blit(weg,(350,170))
-        screen.blit(weg,(320,170)), screen.blit(weg,(290,170)), screen.blit(weg,(260,170)), screen.blit(weg,(260,200))
-        screen.blit(weg,(230,200)), screen.blit(weg,(200,200)), screen.blit(weg,(170,200)), screen.blit(weg,(170,230))
-        screen.blit(weg,(170,260)), screen.blit(weg,(170,290)), screen.blit(weg,(170,320)), screen.blit(weg,(170,350))
-        screen.blit(weg,(170,380)), screen.blit(weg,(170,410)), screen.blit(weg,(170,440)), screen.blit(weg,(170,470))
-        screen.blit(weg,(170,500)), screen.blit(weg,(520,200)), screen.blit(weg,(520,230)), screen.blit(weg,(520,260))
-        screen.blit(weg,(520,290)), screen.blit(weg,(520,320)), screen.blit(weg,(520,350)), screen.blit(weg,(520,380))
-        screen.blit(weg,(550,380)), screen.blit(weg,(580,380)), screen.blit(weg,(610,380)), screen.blit(weg,(640,380))
-        screen.blit(weg,(670,380)), screen.blit(weg,(700,380)), screen.blit(weg,(730,380)), screen.blit(weg,(760,380))
-        screen.blit(weg,(770,380)), screen.blit(weg,(770,350)), screen.blit(weg,(770,320)), screen.blit(weg,(770,290))
-        screen.blit(weg,(490,380)), screen.blit(weg,(460,380)), screen.blit(weg,(430,380)), screen.blit(weg,(400,380))
-        screen.blit(weg,(390,380)), screen.blit(weg,(360,380)), screen.blit(weg,(330,380)), screen.blit(weg,(300,380))
-        screen.blit(weg,(270,380)), screen.blit(weg,(240,380)), screen.blit(weg,(210,380)), screen.blit(weg,(200,380))
-    
-        
-        # HOLZSTAMM
-        
-        screen.blit(holzstamm, (10,190))
-        screen.blit(holzstamm, (120, 380))
-
-       
-        # PILZE
-       
-        screen.blit(großer_pilz, (30,300))
-        screen.blit(großer_pilz, (415,140))
-        screen.blit(kleiner_pilz, (220, 380))
-        screen.blit(kleiner_pilz, (50, 430))
-
-        
-        # VOGELSCHEUCHE
-        
-        screen.blit(vogelscheuche, (10,150))
-
-
-# STEINE
-
-        screen.blit(großer_stein, (90,320))
-        screen.blit(großer_stein, (15,230))
-
-
-# BÄUME + HAUS
-
-        screen.blit(baum,(750,120)), screen.blit(baum,(20,380)) , screen.blit(baum,(50,170)) , screen.blit(haus,(800,80))
-        screen.blit(baum2,(930,105)), screen.blit(baum2,(90,205)), screen.blit(baum3,(945,150)), screen.blit(baum_klein,(910,200))
-        screen.blit(baum_klein,(110,140)), screen.blit(baum6,(770,250)), screen.blit(baum6,(50,260))
-    
-
-
-# WALD
-
-        screen.blit(wald, (5,1)), screen.blit(wald, (105,1)), screen.blit(wald, (205,1)), screen.blit(wald, (305,1))
-        screen.blit(wald, (405,1)), screen.blit(wald, (505,1)), screen.blit(wald, (605,1)), screen.blit(wald, (705,1))
-        screen.blit(wald, (805,1)), screen.blit(wald, (905,1)), screen.blit(wald, (55,30)), screen.blit(wald, (155,30))
-        screen.blit(wald, (255,30)), screen.blit(wald, (355,30)), screen.blit(wald, (455,30)), screen.blit(wald, (555,30))
-        screen.blit(wald, (655,30)), screen.blit(wald, (755,30)), screen.blit(wald, (885,30)),screen.blit(wald, (955,30))
-        screen.blit(wald, (5,60)), screen.blit(wald, (105,60)), screen.blit(wald, (205,60)), screen.blit(wald, (305,60))
-        screen.blit(wald, (405,60)), screen.blit(wald, (505,60)), screen.blit(wald, (605,60)), screen.blit(wald, (705,60))
-        screen.blit(wald, (55,90)), screen.blit(wald, (155,90)), screen.blit(wald, (255,90)), screen.blit(wald, (355,90))
-        screen.blit(wald, (455,90)), screen.blit(wald, (555,90)), screen.blit(wald, (655,90))
-   
-
-
-# BLUMEN
-
-        screen.blit(blume,(840,260))
-        screen.blit(blume2,(855,210))
-
-
-# BRUNNEN
-
-        screen.blit(brunnen, (820, 200))
-
-
-# BEETE + PFLANZEN
-
-        for beet in BEET:
-            beet.draw()
-            if beet.pflanzenbild:
-                beet.pflanzenbild.draw()
-
-# HASE
-
-        hase.draw()
-        
-# Giesskanne
-        giesskanne.draw()
-        screen.draw.text(
-            "W = Gießen",
-            center = (950,430),
-            fontsize = 25,
-            fontname="schrift",
-            color = "white"
-        )
-# speziell für level 3
-        if level == 3:
-            screen.draw.text(f"Salat:{salat_geerntet}/5", (20, 90), fontsize=30, fontname="schrift", color="white")
-            screen.draw.text(f"Sonnenblume: {sonnenblume_geerntet}/3", (20, 120), fontsize=30, fontname="schrift", color="yellow")    
-    
-
-# UI
-
-        screen.draw.text(f"Geld: {geld}", (160,40), fontsize=40, fontname="schrift", color="gold")
-        screen.draw.text(f"Level: {level}", (20,40), fontsize=40,fontname="schrift", color="white")
-        screen.draw.text(f"Zeit: {int(restzeit)}", (400,40), fontsize=40,fontname="schrift", color="white")
-        screen.draw.text(f"Pflanze: {gewaehltepflanze}", (600,40), fontsize=35,fontname="schrift", color="lightgreen")
-
-
     elif zustand == "uebergang":
         screen.fill(HELLROSAFARBE)
 
@@ -587,8 +558,6 @@ def draw():
         color="yellow"
         )
     
-    
-   
 def update(dt):
     global restzeit, gewonnen, verloren, level, zustand
     global wettertimer, wetter, aktueller_sound
@@ -599,7 +568,6 @@ def update(dt):
         if not sound_gestartet:
             sounds.start.play()
             sound_gestartet = True
-            
         intro_timer -= dt
         
         if intro_timer <= 0:
@@ -609,7 +577,6 @@ def update(dt):
     if zustand == "start":
         if keyboard.a:
             zustand = "spiel"
-            
         return           
                    
     if zustand == "spiel":
@@ -645,17 +612,13 @@ def update(dt):
         return
 
     if zustand == "uebergang":
-
         if keyboard.a:
             zustand = "spiel"
-
         return
 
     if zustand == "ende":
-
         if keyboard.d:
             neustart()
-
         return
 
     shop()
@@ -665,7 +628,6 @@ def update(dt):
      # Regen beeinflusst Wasser
     if wetter == "regen":
         
-            
         if aktueller_sound != "regen":
             sounds.vogel.stop()
             sounds.regen.play()
@@ -680,12 +642,10 @@ def update(dt):
 
     for beet in BEET:
     
-
         # Regen beeinflusst Wasser
         if wetter == "regen":
             beet.wasser = min(beet.wasser + 0.2 * dt, 5)
     
-
         # Pflanzenwachstumssystem
         if beet.bepflanzt:
 
@@ -695,7 +655,6 @@ def update(dt):
 
             elif beet.wasser <= 0:
                 beet.wachstum -= 5 * dt
-           
 
             # Pflanze wird reif
             if beet.wachstum >= 100:
