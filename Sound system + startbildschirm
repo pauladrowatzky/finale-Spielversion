@@ -6,6 +6,7 @@ import pygame
 WIDTH = 1000
 HEIGHT = 550
 HELLROSAFARBE = (255, 182, 193)
+TITLE = "Der wilde Acker"
 
 wetter = "sonne"
 aktueller_sound = ""
@@ -483,7 +484,7 @@ def draw():
             screen.draw.text(f"Sonnenblume: {sonnenblume_geerntet}/3", (20, 120), fontsize=30, fontname="schrift", color="yellow")    
     
         # UI
-        ui_rect = Rect((0, 40), (800, 55))
+        ui_rect = Rect((0, 40), (710, 35))
         screen.draw.filled_rect(ui_rect, ( 255, 228, 196))
         screen.draw.rect(ui_rect, (80, 120, 80))
         
