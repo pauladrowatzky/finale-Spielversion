@@ -22,7 +22,6 @@ sonnenblume_geerntet = 0
 
 # Bild für Shop
 mausklick = Actor("mausklick")
-mausklick.pos = (950, 460)
 
 #Beete
 class Beet:
@@ -75,6 +74,12 @@ wald_positions = [
         (355,90),(455,90),(555,90), (655,90)
   ]    
       
+# Overlay UI Pflanzen
+pflanze1 = Actor("salat_reif", (960, 330))
+pflanze2 = Actor("sonnenblume_reif", (960, 370))
+pflanze3 = Actor("radieschen_reif", (960, 410))
+pflanze4 = Actor("kuerbis_reif", (960, 450))
+
 # Deko
 tilesheet = pygame.image.load("images/exterior.png").convert_alpha()
 secondsheet = pygame.image.load("images/plants.png").convert_alpha()
@@ -97,7 +102,7 @@ blume = secondsheet.subsurface((60,385,45,45))
 blume2 = secondsheet.subsurface((25,385,40,45))
 
 giesskanne = Actor("giesskanne")
-giesskanne.pos =(300,470)
+giesskanne.pos =(110,470)
 
 # Wasser als Deko
 water = Actor("water_ecke")
@@ -476,23 +481,14 @@ def draw():
         giesskanne.draw()
         screen.draw.text(
             "W+",
-            center = (290,510),
+            center = (110,510),
             fontsize = 30,
             fontname="schrift",
             color = "white"
         )
-        mausklick.pos = (330,520)
+        mausklick.pos = (140,520)
         mausklick.draw()
-        
-        # Shop Erklärung
-        screen.draw.text(
-            "Shop: S + 1-4", 
-            center = (460, 510),
-            fontsize=30,
-            fontname="schrift",
-            color="white"
-        )        
-            
+    
         # speziell für level 3
         if level == 3:
             screen.draw.text(f"Salat:{salat_geerntet}/5", (20, 90), fontsize=30, fontname="schrift", color="white")
@@ -502,6 +498,46 @@ def draw():
         ui_rect = Rect((0, 40), (710, 35))
         screen.draw.filled_rect(ui_rect, ( 255, 228, 196))
         screen.draw.rect(ui_rect, (80, 120, 80))
+        
+        ui_rect = Rect((870, 310), (120, 170))
+        screen.draw.filled_rect(ui_rect, ( 255, 228, 196))
+        screen.draw.rect(ui_rect, (80, 120, 80))
+        
+        pflanze1.draw()
+        pflanze2.draw()
+        pflanze3.draw()
+        pflanze4.draw()
+        
+         # Shop Erklärung
+        screen.draw.text(
+            "S + 1", 
+            center = (910, 330),
+            fontsize=30,
+            fontname="schrift",
+            color="darkgreen"
+        )    
+        screen.draw.text(
+            "S + 2", 
+            center = (910, 370),
+            fontsize=30,
+            fontname="schrift",
+            color="darkgreen"
+        )     
+        screen.draw.text(
+            "S + 3", 
+            center = (910, 410),
+            fontsize=30,
+            fontname="schrift",
+            color="darkgreen"
+            )   
+        screen.draw.text(
+            "S + 4", 
+            center = (910, 450),
+            fontsize=30,
+            fontname="schrift",
+            color="darkgreen"
+        )     
+        
         
         screen.draw.text(f"Geld: {geld}", (140,40), fontsize=30, fontname="schrift", color="darkgreen")
         screen.draw.text(f"Level: {level}", (20,40), fontsize=30,fontname="schrift", color="darkgreen")
@@ -648,6 +684,21 @@ def update(dt):
 
     #Restzeit korrigieren
     restzeit -= dt
+    
+     # Regen beeinflusst Wasser
+    if wetter == "regen":
+        
+        if aktueller_sound != "regen":
+            sounds.vogel.stop()
+            sounds.regen.play()
+            aktueller_sound = "regen"
+            
+    elif wetter == "sonne":
+        if aktueller_sound != "vogel":
+            sounds.regen.stop()
+            sounds.vogel.play()
+                
+            aktueller_sound = "vogel"
 
     for beet in BEET:
     
@@ -687,3 +738,5 @@ def update(dt):
         gameover()
 
 pgzrun.go()
+
+   
