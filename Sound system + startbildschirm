@@ -8,6 +8,7 @@ HEIGHT = 550
 HELLROSAFARBE = (255, 182, 193)
 TITLE = "Der wilde Acker"
 
+# generelle Variablen
 wetter = "sonne"
 aktueller_sound = ""
 startmusik_spielt = False
@@ -19,6 +20,7 @@ sound_gestartet = False
 salat_geerntet = 0
 sonnenblume_geerntet = 0
 
+# Bild für Shop
 mausklick = Actor("mausklick")
 mausklick.pos = (950, 460)
 
@@ -28,19 +30,21 @@ class Beet:
         self.actor = Actor("beet1")
         self.actor.bottomleft = pos
 
-        # SPIELOGIK
+        # Variablen für Spiellogik
         self.bepflanzt = False
         self.pflanze = ""
         self.wachstum = 0
         self.wasser = 0
         self.pflanzenbild = None
-        
+
+# Zeichnet sich selbst
     def draw(self):
         self.actor.draw()
-
+# bei Klick auf Beet
     def collidepoint(self, pos):
         return self.actor.collidepoint(pos)
 
+# Positionen aller Beete in Liste
 beet_positions = [
 (300,255), (345,255),(390,255), (435,255), (480,255), (560,255), (605,255), (650,255), (695,255), (740, 255),(300,300), (345,300),(390,300), (740, 390),
 (435,300), (480,300), (560,300), (605,300), (650,300), (695,300), (740, 300),(300,345), (345,345),(390,345), (435,345), (480,345), (560,345), 
@@ -49,9 +53,11 @@ beet_positions = [
 
 BEET = []
 
+# Beete in Liste hinzufügen
 for pos in beet_positions:
     BEET.append(Beet(pos))
-    
+
+# Wege in Liste
 weg_positions = [
         (890,200), (890,230), (890,260), (860,260), (830,260), (800,260), (770,260), (770,230), (770,200), (770,170), (740,170), (710,170), (680,170),
         (650,170), (620,170), (590,170), (560,170), (530,170), (500,170), (470,170), (440,170), (410,170), (380,170), (350,170), (320,170), (290,170), 
@@ -59,7 +65,9 @@ weg_positions = [
         (170,470), (170,500), (520,200), (520,230), (520,260), (520,290), (520,320), (520,350), (520,380), (550,380), (580,380), (610,380), (640,380), 
         (670,380), (700,380), (730,380), (760,380), (770,380), (770,350), (770,320), (770,290), (490,380), (460,380), (430,380), (400,380), (390,380), 
         (360,380), (330,380), (300,380), (270,380), (240,380), (210,380), (200,380)
-]      
+] 
+
+# Wald in Liste
 wald_positions = [
         
         (5,1), (105,1), (205,1), (305,1), (405,1),(505,1),(605,1), (705,1), (805,1), (905,1), (55,30), (155,30), (255,30), (355,30), (455,30), (555,30), 
@@ -91,6 +99,7 @@ blume2 = secondsheet.subsurface((25,385,40,45))
 giesskanne = Actor("giesskanne")
 giesskanne.pos =(300,470)
 
+# Wasser als Deko
 water = Actor("water_ecke")
 water.pos = (720,520)
 
@@ -118,11 +127,13 @@ WETTERINTERVALL = 20.0
 gewaehltepflanze = "salat"
 endesoundgespielt = False
 
+# verschiedene Pflanzen
 salat = Actor("salat_keim")
 sonnenblume = Actor("sonnenblume_keim")
 radieschen = Actor("radieschen_keim")
 kuerbis = Actor("kuerbis_keim")
 
+# Directories für Pflanzen
 PFLANZENPREISE = {
 "salat": 10,
 "sonnenblume": 20,
@@ -158,6 +169,7 @@ PFLANZENREIF = {
 "kuerbis": "kuerbis_reif"
 }
 
+# Hase als Sprite -> bewegt sich
 hase = Actor("hase_rechts_1")
 hase.x = 700
 hase.y = 400
@@ -168,6 +180,7 @@ hasen_speed = 45
 HASEN_MIN_X = 250
 HASEN_MAX_X = 800
 
+# Funktion für Hasenbewegung
 def bewegung(dt):
     global hasen_timer
     global hasen_richtung
@@ -204,7 +217,7 @@ def bewegung(dt):
                 hase.image = "hase_links_1"
 
         hasen_timer = 0
-
+# Einleitungstext 
 def einleitung():
 
     screen.fill("black")
@@ -221,7 +234,7 @@ def einleitung():
         "Spielprinzip:",
         "",
         "- Pflanze Gemüse an",
-        "- Erreiche 50 Münzen in 90 Sekunden",
+        "- Erreiche 150 Münzen in 90 Sekunden",
         "- Danach kommst du ins nächste Level",
         "- Klicke auf ein Feld zum Kaufen",
         "- Halte W und klicke zum Gießen",
@@ -267,6 +280,7 @@ def shop():
         elif keyboard.k_4:
             gewaehltepflanze = "kuerbis"
 
+# Funktion für Klicken
 def on_mouse_down(pos):
     global geld
     global salat_geerntet
@@ -279,7 +293,7 @@ def on_mouse_down(pos):
 
         if beet.collidepoint(pos):
 
-            # ERNTEN
+            # ernten
             if beet.bepflanzt and beet.wachstum >= 100:
                 if beet.pflanze == "salat":
                     salat_geerntet += 1
@@ -296,14 +310,14 @@ def on_mouse_down(pos):
                 beet.wasser = 0
                 beet.pflanzenbild = None
 
-            # GIESSEN
+            # gießen
             elif beet.bepflanzt and keyboard.w:
 
                 beet.wasser = min(beet.wasser + 1, 5)
 
                 sounds.giessen.play()
 
-            # NEU PFLANZEN
+            # neu bepflanzt
             elif not beet.bepflanzt:
 
                 preis = PFLANZENPREISE[gewaehltepflanze]
@@ -326,8 +340,7 @@ def on_mouse_down(pos):
 
                     beet.pflanzenbild.center = beet.actor.center
 
- 
-
+ # Funktion für Reset Variablen bei Neustart
 def neustart():
     global zustand, geld, level, levelziel, restzeit
     global verloren, gewonnen, wetter, wettertimer, endesoundgespielt
@@ -353,7 +366,8 @@ def neustart():
         beet.wachstum = 0
         beet.wasser = 0
         beet.pflanzenbild = None
-        
+
+# Funktion für Übergang zwischen Leveln
 def uebergang():
     global zustand, geld, level, levelziel, restzeit
     global verloren, gewonnen, wetter, wettertimer, endesoundgespielt
@@ -381,11 +395,12 @@ def uebergang():
         beet.wasser = 0
         beet.pflanzenbild = None
 
+# Draw-Funktion
 def draw():
-
+# bei Zustand intro
     if zustand == "intro":
         screen.blit("startbild", (0,0))
-        
+ # bei Zustand start       
     elif zustand == "start":
         einleitung()  
         screen.draw.text(
@@ -395,69 +410,69 @@ def draw():
             fontname="schrift",
             color= "black"  
         )
-        
+# bei Zustand Spiel   
     elif zustand == "spiel":
         
-        # HINTERGRUND
+        # Hintergrund
         if wetter == "regen":
             screen.blit("hintergrund_regen", (0,0))
         else:
             screen.blit("hintergrund_sonne", (0,0))
     
-        # WASSER
+        # Wasser draw
         water.draw()
 
         for wasser in waters:
             wasser.draw()
         
-        # WEG
+        # alle Wege
         for pos in weg_positions:
            
            screen.blit(weg, pos)
   
-        # HOLZSTAMM
+        # Holzstamm
         screen.blit(holzstamm, (10,190))
         screen.blit(holzstamm, (120, 380))
 
-        # PILZE
+        # Pilze
         screen.blit(großer_pilz, (30,300))
         screen.blit(großer_pilz, (415,140))
         screen.blit(kleiner_pilz, (220, 380))
         screen.blit(kleiner_pilz, (50, 430))
 
-        # VOGELSCHEUCHE
+        # Vogelscheuche
         screen.blit(vogelscheuche, (10,150))
 
-        # STEINE
+        # Steine
         screen.blit(großer_stein, (90,320))
         screen.blit(großer_stein, (15,230))
 
-        # BÄUME + HAUS
+        # Bäume und Haus
         screen.blit(baum,(750,120)), screen.blit(baum,(20,380)) , screen.blit(baum,(50,170)) , screen.blit(haus,(800,80))
         screen.blit(baum2,(930,105)), screen.blit(baum2,(90,205)), screen.blit(baum3,(945,150)), screen.blit(baum_klein,(910,200))
         screen.blit(baum_klein,(110,140)), screen.blit(baum6,(770,250)), screen.blit(baum6,(50,260))
     
-        # WALD
+        # Wals
         for pos in wald_positions:
            screen.blit(wald, pos)
    
-        # BLUMEN
+        # Blumen
         screen.blit(blume,(840,260))
         screen.blit(blume2,(855,210))
 
-        # BRUNNEN
+        # Brunnen
         screen.blit(brunnen, (820, 200))
 
-        # BEETE + PFLANZEN
+        # Beete und Pflanzen
         for beet in BEET:
             beet.draw()
             if beet.pflanzenbild:
                 beet.pflanzenbild.draw()
 
-        # HASE
+        # Hase
         hase.draw()
         
-        # Giesskanne
+        # Gießkanne
         giesskanne.draw()
         screen.draw.text(
             "W+",
@@ -469,7 +484,7 @@ def draw():
         mausklick.pos = (330,520)
         mausklick.draw()
         
-        # Shop erklärung
+        # Shop Erklärung
         screen.draw.text(
             "Shop: S + 1-4", 
             center = (460, 510),
@@ -492,7 +507,8 @@ def draw():
         screen.draw.text(f"Level: {level}", (20,40), fontsize=30,fontname="schrift", color="darkgreen")
         screen.draw.text(f"Zeit: {int(restzeit)}", (300,40), fontsize=30,fontname="schrift", color="darkgreen")
         screen.draw.text(f"Pflanze: {gewaehltepflanze}", (450,40), fontsize=30,fontname="schrift", color="darkgreen")
-        
+
+# bei Zustand gameover
     elif zustand == "gameover":
         screen.fill("black")
 
@@ -512,7 +528,7 @@ def draw():
             color="white"
             )
         return
-    
+# bei Zustand Übergang  
     elif zustand == "uebergang":
         screen.fill(HELLROSAFARBE)
 
@@ -539,7 +555,7 @@ def draw():
         fontname="schrift",
         color="yellow"
         )
-
+# bei Zustand Ende
     elif zustand == "ende":
         screen.fill("black")
 
@@ -558,13 +574,15 @@ def draw():
         fontname="schrift",
         color="yellow"
         )
-    
+
+# Update- Funktion
 def update(dt):
+# globale Variablen
     global restzeit, gewonnen, verloren, level, zustand
     global wettertimer, wetter, aktueller_sound
     global startmusik_spielt
     global intro_timer, sound_gestartet
-     
+    # bei Zustand intro 
     if zustand == "intro": 
         if not sound_gestartet:
             sounds.start.play()
@@ -574,13 +592,14 @@ def update(dt):
         if intro_timer <= 0:
             zustand ="start"
         return        
-    
+    # bei Zustand Start
     if zustand == "start":
         if keyboard.a:
             zustand = "spiel"
         return           
-                   
+   # bei Zustand Spiel                
     if zustand == "spiel":
+        # Unterscheidung Regen vs. Sonne
         if wetter == "regen":
             if aktueller_sound != "regen":
                 sounds.vogel.stop()
@@ -592,8 +611,9 @@ def update(dt):
                 sounds.regen.stop()
                 sounds.vogel.play()
                 aktueller_sound = "vogel"
+        # Bewegung Hase
         bewegung(dt)
-
+    # bei Zustand gameover
     if zustand == "gameover":
         if keyboard.d:
             neustart()
@@ -602,28 +622,31 @@ def update(dt):
     # Wettertimer
     wettertimer += dt
 
+    # Änderung Wetter
     if wettertimer >= WETTERINTERVALL:
         wettertimer = 0
         wetter = random.choice(["sonne", "regen"])
 
+    # bei Zustand start
     if zustand == "start":
         if keyboard.a:
             sounds.start.stop()
             zustand = "spiel"
         return
-
+    # bei Zustand Übergang
     if zustand == "uebergang":
         if keyboard.a:
             zustand = "spiel"
         return
-
+    # bei Zustand ende
     if zustand == "ende":
         if keyboard.d:
             neustart()
         return
-
+    # Shop-Funktion
     shop()
 
+    #Restzeit korrigieren
     restzeit -= dt
     
      # Regen beeinflusst Wasser
