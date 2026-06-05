@@ -648,21 +648,6 @@ def update(dt):
 
     #Restzeit korrigieren
     restzeit -= dt
-    
-     # Regen beeinflusst Wasser
-    if wetter == "regen":
-        
-        if aktueller_sound != "regen":
-            sounds.vogel.stop()
-            sounds.regen.play()
-            aktueller_sound = "regen"
-            
-    elif wetter == "sonne":
-        if aktueller_sound != "vogel":
-            sounds.regen.stop()
-            sounds.vogel.play()
-                
-            aktueller_sound = "vogel"
 
     for beet in BEET:
     
