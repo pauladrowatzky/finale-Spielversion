@@ -260,7 +260,7 @@ def einleitung():
             center=(WIDTH // 2, y),
             fontsize=32,
             fontname="schrift",
-            color="lightblue"
+            color="lightpink"
         )
 
         y += 30
